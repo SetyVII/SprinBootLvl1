@@ -1,0 +1,22 @@
+# Application name
+spring.application.name=grupo5
+
+# Datasource (Postgres example)
+spring.datasource.url=jdbc:postgresql://localhost:5433/postgres
+spring.datasource.username=sa
+spring.datasource.password=dummy
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Let Hibernate manage schema (create/update) before running data.sql
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.defer-datasource-initialization=true
+
+# Ensure Spring's SQL initializer runs (execute data.sql) after deferred init
+spring.sql.init.mode=always
+# Optional: set encoding and behavior
+spring.sql.init.encoding=UTF-8
+spring.sql.init.continue-on-error=false
+
+# JPA logging
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true

@@ -22,6 +22,7 @@ public class Order {
     private int id;
 
     @Column(nullable = false, name="order_date")
+    // TODO: dont solve much is better call this later
     private LocalDateTime date = LocalDateTime.now();
 
     @Column(nullable = false, name="order_total")

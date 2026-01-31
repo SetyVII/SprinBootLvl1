@@ -20,7 +20,7 @@ public class Category {
     private int id;
 
     // TODO: better limit the size ? implement
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     private String description;

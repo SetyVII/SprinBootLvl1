@@ -18,6 +18,7 @@ public class Shipment {
     private int id;
 
     @Column(name = "shipment_date", nullable = false)
+    // TODO: dont solve much is better call this later
     private LocalDateTime date = LocalDateTime.now();
 
     @Column(nullable = false, name = "zip_code")
@@ -36,7 +37,7 @@ public class Shipment {
     private String country;
 
     @OneToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id", nullable = true)
     private Order order;
 
 }

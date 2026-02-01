@@ -20,6 +20,7 @@ public class Product {
     @Column(name = "product_id")
     private int id;
 
+    // TODO: better use unique, ask first
     @Column(nullable = false)
     private String name;
 

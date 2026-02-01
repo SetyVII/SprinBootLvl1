@@ -1,5 +1,6 @@
 package com.example.grupo5.service;
 
+import com.example.grupo5.Exceptions.NotFoundException;
 import com.example.grupo5.dto.CategoryDTO;
 import com.example.grupo5.entity.Category;
 import com.example.grupo5.repository.CategoryRepository;
@@ -30,11 +31,11 @@ public class CategoryService {
         List<Category> categories = categoryRepository.findAll();
         return categories.stream().map(cat -> new CategoryDTO(cat.getId(), cat.getName(), cat.getDescription())).toList();
     }
-
+    // TODO: Delete test when it's correct
     public CategoryDTO findById(int id) {
         return categoryRepository.findById(id)
                 .map(cat -> new CategoryDTO(cat.getId(), cat.getName(), cat.getDescription()))
-                .orElseThrow();
+                .orElseThrow(()->new NotFoundException("Test: Category not found with id: " + id ));
     }
 
     // Update

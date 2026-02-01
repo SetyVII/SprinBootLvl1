@@ -7,6 +7,9 @@ import com.example.grupo5.entity.Category;
 import com.example.grupo5.entity.Product;
 import com.example.grupo5.repository.CategoryRepository;
 import com.example.grupo5.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
@@ -72,7 +75,27 @@ public class ProductService {
         return product;
     }
 
+    // List paginated
+    public List<ProductResponseDTO> listPaged(int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Product> result = productRepository.findAllByOrderByNameAsc(pageable);
+        return result.getContent().stream()
+                .map(this::mappingDTO)   // Product -> ProductResponseDTO (with category DTOs)
+                .toList();
+    }
 
+    // Search paginated
+    public List<ProductResponseDTO> searchPaged(String query, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Product> result =
+                productRepository
+                        .findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrderByNameAsc(
+                                query, query, pageable
+                        );
+        return result.getContent().stream()
+                .map(this::mappingDTO)
+                .toList();
+    }
 
 
     // Mapping

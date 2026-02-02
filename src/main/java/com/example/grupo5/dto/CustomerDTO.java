@@ -10,7 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerDTO {
-    private int id;
+    // Asure null on DTO
+    private Integer id;
     private String firstName;
     private String lastName;
     private String email;

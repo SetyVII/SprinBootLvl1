@@ -3,6 +3,7 @@ package com.example.grupo5.service;
 import com.example.grupo5.Exceptions.BadRequestException;
 import com.example.grupo5.Exceptions.NotFoundException;
 import com.example.grupo5.dto.OrderDTO;
+import com.example.grupo5.dto.OrderItemDTO;
 import com.example.grupo5.dto.ShipmentCreateDTO;
 import com.example.grupo5.dto.ShipmentDTO;
 import com.example.grupo5.entity.CartItem;
@@ -56,19 +57,27 @@ public class OrderService {
             throw new BadRequestException("Cart is empty for customer id: " + customerId);
         }
 
+        // Validar stock disponible para todos los productos
+        for (CartItem cartItem : cartItems) {
+            Product product = productRepository.findById(cartItem.getProduct().getId())
+                    .orElseThrow(() -> new NotFoundException("Product not found with id: " + cartItem.getProduct().getId()));
+
+            if (product.getStock() < cartItem.getQuantity()) {
+                throw new BadRequestException("Stock insuficiente para el producto: " + product.getName() +
+                        " (disponible: " + product.getStock() + ", requerido: " + cartItem.getQuantity() + ")");
+            }
+        }
+
         Order order = new Order();
         order.setCustomer(customer);
         order.setTotal(0.0);
         order = orderRepository.save(order);
 
         double total = 0.0;
-        for (CartItem cartItem : cartItems) {
-            Product product = productRepository.findById(cartItem.getProduct().getId())
-                    .orElseThrow(() -> new NotFoundException("Product not found with id: " + cartItem.getProduct().getId()));
+        List<OrderItemDTO> itemDTOs = new java.util.ArrayList<>();
 
-            if (product.getStock() < cartItem.getQuantity()) {
-                throw new BadRequestException("Insufficient stock for product id: " + product.getId());
-            }
+        for (CartItem cartItem : cartItems) {
+            Product product = cartItem.getProduct();
 
             product.setStock(product.getStock() - cartItem.getQuantity());
             productRepository.save(product);
@@ -81,6 +90,7 @@ public class OrderService {
             orderItemRepository.save(orderItem);
 
             total += product.getPrice() * cartItem.getQuantity();
+            itemDTOs.add(new OrderItemDTO(product.getId(), product.getName(), cartItem.getQuantity(), product.getPrice()));
         }
 
         order.setTotal(total);
@@ -88,7 +98,7 @@ public class OrderService {
 
         cartItemRepository.deleteByCustomerId(customerId);
 
-        return new OrderDTO(order.getId(), order.getDate(), order.getTotal(), customerId);
+        return new OrderDTO(order.getId(), customerId, order.getDate(), itemDTOs, total, order.getShipment() != null ? order.getShipment().getId() : null);
     }
 
     @Transactional
@@ -97,15 +107,15 @@ public class OrderService {
                 .orElseThrow(() -> new NotFoundException("Order not found with id: " + orderId));
 
         if (order.getShipment() != null) {
-            throw new BadRequestException("Order already has a shipment.");
+            throw new BadRequestException("El pedido " + orderId + " ya había sido enviado");
         }
 
         Shipment shipment = new Shipment();
-        shipment.setZipCode(dto.getZipCode());
-        shipment.setAddress(dto.getAddress());
-        shipment.setCity(dto.getCity());
-        shipment.setState(dto.getState());
-        shipment.setCountry(dto.getCountry());
+        shipment.setAddress(dto.address());
+        shipment.setCity(dto.city());
+        shipment.setZipCode(dto.zipCode());
+        shipment.setState(dto.state());
+        shipment.setCountry(dto.country());
         shipment.setOrder(order);
 
         Shipment saved = shipmentRepository.save(shipment);
@@ -114,13 +124,13 @@ public class OrderService {
 
         return new ShipmentDTO(
                 saved.getId(),
+                orderId,
                 saved.getDate(),
-                saved.getZipCode(),
                 saved.getAddress(),
                 saved.getCity(),
+                saved.getZipCode(),
                 saved.getState(),
-                saved.getCountry(),
-                orderId
+                saved.getCountry()
         );
     }
 }

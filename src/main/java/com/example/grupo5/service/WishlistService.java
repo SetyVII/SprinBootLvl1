@@ -48,7 +48,7 @@ public class WishlistService {
                 .orElseThrow(() -> new NotFoundException("Customer not found with id: " + customerId));
 
         Wishlist wishlist = new Wishlist();
-        wishlist.setName(dto.getName());
+        wishlist.setName(dto.name());
         wishlist.setShared(dto.isShared());
         wishlist.setCustomer(customer);
 

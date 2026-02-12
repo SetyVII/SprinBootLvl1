@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class CustomerService {
 
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
@@ -46,25 +46,26 @@ public class CustomerService {
     }
 
     private void saving(CustomerDTO customerDTO, Customer customer) {
-        customer.setFirstName(customerDTO.getFirstName());
-        customer.setLastName(customerDTO.getLastName());
-        customer.setEmail(customerDTO.getEmail());
+        customer.setFirstName(customerDTO.firstName());
+        customer.setLastName(customerDTO.lastName());
+        customer.setEmail(customerDTO.email());
         // HASH PASSWORD: change on DTO
-        customer.setPassword(customerDTO.getPassword());
-        customer.setPhoneNumber(customerDTO.getPhoneNumber());
-        customer.setAddress(customerDTO.getAddress());
+        customer.setPassword(customerDTO.password());
+        customer.setPhoneNumber(customerDTO.phoneNumber());
+        customer.setAddress(customerDTO.address());
         customerRepository.save(customer);
     }
 
 
     public CustomerDTO toDTO (Customer customer){
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setFirstName(customer.getFirstName());
-        customerDTO.setLastName(customer.getLastName());
-        customerDTO.setEmail(customer.getEmail());
-        customerDTO.setPhoneNumber(customer.getPhoneNumber());
-        customerDTO.setAddress(customer.getAddress());
-        customerDTO.setId(customer.getId());
-        return customerDTO;
+        return new CustomerDTO(
+                customer.getId(),
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getEmail(),
+                customer.getPassword(),
+                customer.getAddress(),
+                customer.getPhoneNumber()
+        );
     }
 }

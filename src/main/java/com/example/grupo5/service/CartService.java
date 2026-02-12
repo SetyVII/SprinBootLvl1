@@ -48,21 +48,21 @@ public class CartService {
                 ))
                 .toList();
 
-        double total = lines.stream().mapToDouble(CartLineDTO::getLineTotal).sum();
+        double total = lines.stream().mapToDouble(CartLineDTO::lineTotal).sum();
         return new CartSummaryDTO(lines, total);
     }
 
     @Transactional
     public CartSummaryDTO addProduct(int customerId, CartAddItemDTO dto) {
-        if (dto.getQuantity() <= 0) {
+        if (dto.quantity() <= 0) {
             throw new BadRequestException("Quantity must be greater than zero.");
         }
 
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Customer not found with id: " + customerId));
 
-        Product product = productRepository.findById(dto.getProductId())
-                .orElseThrow(() -> new NotFoundException("Product not found with id: " + dto.getProductId()));
+        Product product = productRepository.findById(dto.productId())
+                .orElseThrow(() -> new NotFoundException("Product not found with id: " + dto.productId()));
 
         CartItem item = cartItemRepository.findByCustomerIdAndProductId(customerId, product.getId())
                 .orElseGet(() -> {
@@ -74,7 +74,7 @@ public class CartService {
                     return newItem;
                 });
 
-        item.setQuantity(item.getQuantity() + dto.getQuantity());
+        item.setQuantity(item.getQuantity() + dto.quantity());
         item.setPrice(product.getPrice());
         cartItemRepository.save(item);
 

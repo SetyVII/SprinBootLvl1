@@ -19,8 +19,8 @@ public class CategoryService {
     // Create
     public CategoryDTO save(CategoryDTO dto) {
         Category category = new Category();
-        category.setName(dto.getName());
-        category.setDescription(dto.getDescription());
+        category.setName(dto.name());
+        category.setDescription(dto.description());
 
         Category saved = categoryRepository.save(category);
         return new CategoryDTO(saved.getId(), saved.getName(), saved.getDescription());
@@ -41,8 +41,8 @@ public class CategoryService {
     // Update
     public CategoryDTO update(int id, CategoryDTO dto) {
         Category category = categoryRepository.findById(id).orElseThrow();
-        category.setName(dto.getName());
-        category.setDescription(dto.getDescription());
+        category.setName(dto.name());
+        category.setDescription(dto.description());
 
         Category updated = categoryRepository.save(category);
         return new CategoryDTO(updated.getId(), updated.getName(), updated.getDescription());

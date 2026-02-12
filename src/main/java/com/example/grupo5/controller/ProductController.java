@@ -56,14 +56,14 @@ public class ProductController {
 
     // Only for testing
     // New Methods for pages
-    @GetMapping("/pages/{page}/{pageSize}")
+    @GetMapping("/{page}/{pageSize}")
     public List<ProductResponseDTO> listPaged(@PathVariable int page, @PathVariable int pageSize) {
         return productService.listPaged(page, pageSize);
     }
 
     // Check the responses
-    @GetMapping("/search")
-    public List<ProductResponseDTO> searchPaged(@RequestParam String query, int page, int pageSize) {
+    @GetMapping("/search/{query}/{page}/{pageSize}")
+    public List<ProductResponseDTO> searchPaged(@PathVariable String query, @PathVariable int page, @PathVariable int pageSize) {
         return productService.searchPaged(query, page, pageSize);
     }
 

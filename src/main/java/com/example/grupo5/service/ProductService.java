@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,11 +44,13 @@ public class ProductService {
 
     // Read
 
+    @Transactional(readOnly = true)
     public List<ProductResponseDTO> findAll() {
         List<Product> p = productRepository.findAll();
         return p.stream().map(this::mappingDTO).collect(toList());
     }
 
+    @Transactional(readOnly = true)
     public ProductResponseDTO findById(int id) {
         // TODO: Add exception handling
         Product product = productRepository.findById(id).orElseThrow();
@@ -68,6 +71,7 @@ public class ProductService {
     }
 
     // Delete
+    @Transactional
     public ProductResponseDTO delete(int id) {
         ProductResponseDTO product = findById(id);
         productRepository.deleteById(id);
@@ -76,6 +80,7 @@ public class ProductService {
     }
 
     // List paginated
+    @Transactional(readOnly = true)
     public List<ProductResponseDTO> listPaged(int page, int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Product> result = productRepository.findAllByOrderByNameAsc(pageable);
@@ -85,6 +90,7 @@ public class ProductService {
     }
 
     // Search paginated
+    @Transactional(readOnly = true)
     public List<ProductResponseDTO> searchPaged(String query, int page, int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Product> result =

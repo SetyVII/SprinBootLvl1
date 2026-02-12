@@ -1,18 +1,9 @@
 package com.example.grupo5.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class CartSummaryDTO {
-    private List<CartLineDTO> items;
-    private double total;
-}
+public record CartSummaryDTO(
+        List<CartLineDTO> items,
+        double totalAmount
+) {}
 

@@ -11,33 +11,33 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "shipments")
 public class Shipment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="shipment_id")
+    @Column(name = "shipment_id")
     private int id;
 
     @Column(name = "shipment_date", nullable = false)
-    // TODO: dont solve much is better call this later
     private LocalDateTime date = LocalDateTime.now();
 
     @Column(nullable = false, name = "zip_code")
     private String zipCode;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "address")
     private String address;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "city")
     private String city;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "state")
     private String state;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "country")
     private String country;
 
     @OneToOne
-    @JoinColumn(name = "order_id", nullable = true)
+    @JoinColumn(name = "order_id")
     private Order order;
 
 }

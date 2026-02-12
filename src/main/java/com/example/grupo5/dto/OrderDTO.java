@@ -1,19 +1,13 @@
 package com.example.grupo5.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class OrderDTO {
-    private int id;
-    private LocalDateTime date;
-    private double total;
-    private int customerId;
-}
+public record OrderDTO(
+        int orderId,
+        int customerId,
+        LocalDateTime orderDate,
+        List<OrderItemDTO> items,
+        double totalAmount,
+        Integer shipmentId
+) {}

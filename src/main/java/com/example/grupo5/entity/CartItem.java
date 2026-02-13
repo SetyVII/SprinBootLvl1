@@ -14,6 +14,7 @@ public class CartItem {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     @Column(name = "cart_item_id")
+    //hola sebas
     private int id;
 
     @Column(nullable = false)

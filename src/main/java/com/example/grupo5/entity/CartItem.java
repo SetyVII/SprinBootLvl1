@@ -14,13 +14,14 @@ public class CartItem {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     @Column(name = "cart_item_id")
-    private Integer id;
+    //hola sebas
+    private int id;
 
     @Column(nullable = false)
-    private Integer quantity;
+    private int quantity;
 
     @Column(nullable = false, name = "unit_price")
-    private Double price;
+    private double price;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)

@@ -18,9 +18,9 @@ public class Wishlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "wishlist_id")
-    private int id;
+    private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 100)
     private String name;
 
     @Column(nullable = false)

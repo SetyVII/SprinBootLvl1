@@ -15,13 +15,13 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     @Column(name = "order_item_id")
-    private int id;
+    private Integer id;
 
     @Column(nullable = false)
-    private int quantity;
+    private Integer quantity;
 
     @Column(nullable = false, name = "unit_price")
-    private double price;
+    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)

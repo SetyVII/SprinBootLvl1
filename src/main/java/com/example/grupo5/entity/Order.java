@@ -19,14 +19,13 @@ public class Order {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     @Column(name = "order_id")
-    private int id;
+    private Integer id;
 
     @Column(nullable = false, name="order_date")
-    // TODO: dont solve much is better call this later
     private LocalDateTime date = LocalDateTime.now();
 
     @Column(nullable = false, name="order_total")
-    private double total;
+    private Double total;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)

@@ -18,28 +18,29 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private int id;
+    private Integer id;
 
     // TODO: better use unique, ask first
-    @Column(nullable = false)
+    @Column(nullable = false,length=100)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true,length=15)
     private String sku;
 
     // here possible could have a problem
     @Column(nullable = false)
-    private int stock;
+    private Integer stock;
 
     @Column(nullable = false)
-    private double price;
+    private Double price;
 
+    @Column(length=1000)
     String description;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     // why we use here the name?
     @JoinTable(
-            name = "product_category",
+            name = "products_categories",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )

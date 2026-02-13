@@ -17,12 +17,12 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    private int id;
+    private Integer id;
 
     // TODO: better limit the size ? implement
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true,length = 100)
     private String name;
-
+    @Column(length = 1000)
     private String description;
 
     @ManyToMany(mappedBy = "categories")

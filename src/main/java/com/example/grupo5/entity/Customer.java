@@ -18,29 +18,27 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
-    private int id;
+    private Integer id;
 
-    @Column(nullable = false, name = "first_name")
+    @Column(nullable = false, name = "first_name",length = 50)
     private String firstName;
 
-    @Column(nullable = false, name = "last_name")
+    @Column(nullable = false, name = "last_name",length = 50)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 30)
     private String email;
 
-    // TODO: change this for a hash code if it's possible
-    @Column(nullable = false)
+    @Column(nullable = false,length = 30)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 100)
     private String address;
 
     // We use String cause +34 or prefix
-    @Column(name = "phone_number")
+    @Column(name = "phone_number",length = 20)
     private String phoneNumber;
 
-    // TODO: notice that is neccesary now type all cause if we delete the customer her wishlist is now broke
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Wishlist> wishlists = new HashSet<>();
 

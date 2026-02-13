@@ -11,6 +11,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "cart_items", uniqueConstraints = @UniqueConstraint(columnNames = {"customer_id", "product_id"}))
 public class CartItem {
+    // Hola Ivan
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     @Column(name = "cart_item_id")
